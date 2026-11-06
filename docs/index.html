@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>安徒生童话 · 拆书</title>
+<style>
+:root{
+  --paper:#faf7f1; --ink:#23201c; --ink-2:#5b544a; --ink-3:#8a8175;
+  --line:#e4dccd; --card:#fffdf9; --accent:#274b6d; --accent-soft:#e6edf3;
+  --w:780px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Songti SC","Noto Serif CJK SC","Source Han Serif SC","SimSun",Georgia,serif;
+  font-size:17px; line-height:1.85; -webkit-font-smoothing:antialiased;
+}
+.ui{font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",system-ui,sans-serif}
+.wrap{max-width:var(--w); margin:0 auto; padding:0 24px}
+
+header.hero{padding:70px 0 38px; border-bottom:1px solid var(--line)}
+.eyebrow{font-size:12px; letter-spacing:.28em; color:var(--accent)}
+h1{font-size:clamp(30px,4.6vw,44px); line-height:1.28; margin:.34em 0 .3em; letter-spacing:.08em}
+.lede{color:var(--ink-2); font-size:17px; max-width:34em; margin:0}
+.stats{display:flex; flex-wrap:wrap; gap:30px; margin:30px 0 2px}
+.stat b{display:block; font-size:25px; line-height:1.15; font-family:"PingFang SC","Microsoft YaHei",sans-serif}
+.stat span{font-size:12px; color:var(--ink-3); letter-spacing:.1em}
+
+nav{position:sticky; top:0; z-index:20; background:rgba(250,247,241,.93); backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line)}
+nav .wrap{display:flex; gap:4px; overflow-x:auto}
+nav a{padding:13px 12px; font-size:14px; color:var(--ink-2); text-decoration:none; white-space:nowrap;
+  border-bottom:2px solid transparent}
+nav a:hover,nav a.on{color:var(--accent); border-bottom-color:var(--accent)}
+
+section{padding:52px 0; border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+.chapno{font-size:12px; letter-spacing:.2em; color:var(--ink-3)}
+h2{font-size:clamp(24px,3.6vw,31px); margin:.2em 0 .1em; letter-spacing:.06em}
+.tagline{font-size:18px; color:var(--ink-2); border-left:3px solid var(--accent); padding-left:15px; margin:16px 0 26px}
+
+.fig{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px 16px 6px; margin:0 0 26px}
+.fig .mermaid{display:flex; justify-content:center; overflow-x:auto}
+.fig figcaption{font-size:12.5px; color:var(--ink-3); text-align:center; padding:6px 0 10px; letter-spacing:.04em}
+.fig pre.err{font-size:12px; color:#8a3b2e; background:#fdf0ec; padding:12px; border-radius:8px; overflow:auto}
+
+.md p{margin:0 0 1.1em; text-align:justify}
+.md ul,.md ol{padding-left:1.35em; margin:0 0 1.2em}
+.md li{margin:.3em 0}
+.md blockquote{margin:1.2em 0; padding:2px 18px; border-left:3px solid var(--line); color:var(--ink-2)}
+.md code{background:#f2ece1; padding:1px 5px; border-radius:4px; font-size:.9em}
+.md a{color:var(--accent)}
+.md table{border-collapse:collapse; width:100%; font-size:15px; margin:0 0 1.2em}
+.md th,.md td{border-bottom:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top}
+.md th{color:var(--ink-3); font-weight:400; font-size:13px; letter-spacing:.08em}
+
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(215px,1fr)); gap:12px; margin:6px 0 8px}
+.card{display:block; text-decoration:none; color:inherit; background:var(--card);
+  border:1px solid var(--line); border-radius:12px; padding:15px 17px; transition:.18s}
+.card:hover{border-color:var(--accent); transform:translateY(-2px)}
+.card b{display:block; font-size:17px; letter-spacing:.04em; margin-bottom:4px}
+.card span{font-size:13.5px; color:var(--ink-2); line-height:1.65}
+
+.note{background:var(--accent-soft); border-left:3px solid var(--accent); border-radius:0 8px 8px 0;
+  padding:14px 18px; font-size:14.5px; color:#22394f; margin:0 0 24px}
+.note b{font-weight:600}
+.warn{max-width:var(--w); margin:22px auto; padding:13px 18px; background:#fdf0ec; border:1px solid #e7c6bd;
+  border-radius:8px; color:#8a3b2e; font-size:14px; line-height:1.7}
+
+footer{padding:38px 0 64px; font-size:12.5px; color:var(--ink-3); line-height:1.9}
+footer a{color:var(--ink-2)}
+
+@media (max-width:640px){
+  body{font-size:16px}
+  header.hero{padding:44px 0 28px}
+  section{padding:36px 0}
+  .stats{gap:18px}
+}
+@media print{
+  nav{display:none}
+  body{background:#fff; font-size:11pt}
+  section{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow ui">拆书 · 安徒生</div>
+    <h1>安徒生童话</h1>
+    <p class="lede">三十五篇。安徒生到三十岁才认真写童话，此后写了近四十年；他一边说是给孩子看的，一边把大人的处境写了进去。</p>
+    <div class="stats ui">
+      <div class="stat"><b>35</b><span>篇</span></div>
+      <div class="stat"><b>17.3 万</b><span>字译文</span></div>
+      <div class="stat"><b>88</b><span>张插图</span></div>
+      <div class="stat"><b>1835</b><span>第一册</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="ui"><div class="wrap">
+  <a href="#life">一生</a>
+  <a href="#skeleton">骨架</a>
+  <a href="#kinds">四类</a>
+  <a href="#roles">主角</a>
+  <a href="#ten">十篇</a>
+  <a href="#howto">怎么读</a>
+</div></nav>
+
+<main>
+
+<div class="warn" id="libwarn" hidden>
+  本页的正文与图表依赖 cdn.jsdelivr.net 上的 marked 与 mermaid，当前没能加载成功。请检查网络后刷新。
+</div>
+
+<section id="life">
+  <div class="wrap">
+    <div class="chapno ui">一 · 一生</div>
+    <h2>三十岁才动手，写到最后一口气</h2>
+    <p class="tagline">写诗、写剧本、写游记都不算红，靠童话才站住。</p>
+
+    <figure class="fig">
+      <div class="mermaid">
+flowchart LR
+  A["1805 · 生于欧登塞"] --> B["1835 · 第一册童话"]
+  B --> C["1844 · 《新童话》"]
+  C --> D["1872 · 最后一篇"]
+      </div>
+      <figcaption>近四十年，一百五十多篇</figcaption>
+    </figure>
+
+    <script type="text/markdown">
+第一册里有《打火盒》《小克劳斯与大克劳斯》《豌豆上的公主》，都是从民间故事改来的，路子接近格林。越往后越像他自己：写一只锡兵、一盏路灯、一枚别针、一个影子，把人的处境安在不会反抗的东西身上。
+    </script>
+  </div>
+</section>
+
+<section id="skeleton">
+  <div class="wrap">
+    <div class="chapno ui">二 · 骨架</div>
+    <h2>一个故事，五步往下走</h2>
+    <p class="tagline">格林的主角往上走，安徒生的主角一边往上，一边在塌。</p>
+
+    <figure class="fig">
+      <div class="mermaid">
+flowchart TD
+  P["① 一件小事：一件东西 · 一次误会"] --> Q["② 起念：想要什么"]
+  Q --> R["③ 往上走：越走越高"]
+  R --> S["④ 转折：代价出现"]
+  S --> T["⑤ 结局：多半不圆满"]
+      </div>
+      <figcaption>越接近愿望，代价越清楚</figcaption>
+    </figure>
+
+    <script type="text/markdown">
+小人鱼换到双腿，每走一步像踩在刀尖上；锡兵只剩一条腿，最后熔成一颗锡心；丑小鸭挨了一整个冬天，才照见自己是天鹅。**“得到”和“失去”在同一层**，这是安徒生跟格林最大的不同。
+    </script>
+  </div>
+</section>
+
+<section id="kinds">
+  <div class="wrap">
+    <div class="chapno ui">三 · 四类</div>
+    <h2>四种写法</h2>
+    <p class="tagline">从改写民间故事，到写物件、写世情、写死。</p>
+
+    <script type="text/markdown">
+| 类别 | 特点 | 代表篇 |
+| --- | --- | --- |
+| 民间故事改写 | 早期作品，结构接近格林：出门、考验、报偿 | [打火盒](https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/06-打火盒.md) · [小克劳斯与大克劳斯](https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/27-小克劳斯与大克劳斯.md) · [豌豆上的公主](https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/02-豌豆上的公主.md) |
+| 物与影 | 主角是物件或影子，替人承受、也替人看穿 | [坚定的锡兵](https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/08-坚定的锡兵.md) · [老路灯](https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/10-老路灯.md) · [影子](https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/13-影子.md) |
+| 世情讽刺 | 讲阶级、势利、面子，几乎不留情面 | [国王的新衣](https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/14-国王的新衣.md) · [猪倌](https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/22-猪倌.md) · [园丁与贵族](https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/28-园丁与贵族.md) |
+| 苦难与死 | 穷、病、冻死；结尾常给一个天上的安慰 | [卖火柴的小女孩](https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/05-卖火柴的小女孩.md) · [红鞋子](https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/30-红鞋子.md) · [接骨木妈妈](https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/35-接骨木妈妈.md) |
+    </script>
+  </div>
+</section>
+
+<section id="roles">
+  <div class="wrap">
+    <div class="chapno ui">四 · 主角</div>
+    <h2>主角总是弱的那一个</h2>
+    <p class="tagline">物件、弱者、聪明人，三种身份，一样的不占上风。</p>
+
+    <figure class="fig">
+      <div class="mermaid">
+flowchart TD
+  P["主角"] --> P1["物件：锡兵 · 路灯 · 茶壶 · 别针"]
+  P --> P2["弱者：小人鱼 · 丑小鸭 · 卖火柴的女孩"]
+  P --> P3["聪明人：小克劳斯 · 笨汉斯 · 园丁"]
+      </div>
+      <figcaption>三类主角，对手多半不是人</figcaption>
+    </figure>
+
+    <script type="text/markdown">
+对手常常不是巫婆巨人，而是“规矩”“别人的眼光”“时间”这些看不见的东西：公主必须认得出二十层床垫下的豌豆，夜莺必须比镶宝石的机器更动听，锡兵必须站得笔直。**安徒生的残酷不在魔法，在体面。**
+    </script>
+  </div>
+</section>
+
+<section id="ten">
+  <div class="wrap">
+    <div class="chapno ui">五 · 十篇</div>
+    <h2>先读这十篇</h2>
+    <p class="tagline">点开就是原文，注释跟在所注段落后面。</p>
+
+    <div class="cards">
+      <a class="card" href="https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/01-海的女儿.md" target="_blank" rel="noopener"><b>海的女儿</b><span>用声音换一双腿，每走一步都像踩在刀尖上。</span></a>
+      <a class="card" href="https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/04-丑小鸭.md" target="_blank" rel="noopener"><b>丑小鸭</b><span>生在鸭群里，挨过一个冬天，才照见自己是天鹅。</span></a>
+      <a class="card" href="https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/05-卖火柴的小女孩.md" target="_blank" rel="noopener"><b>卖火柴的小女孩</b><span>平安夜，一根火柴一个幻象，最后一个是祖母。</span></a>
+      <a class="card" href="https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/06-打火盒.md" target="_blank" rel="noopener"><b>打火盒</b><span>士兵、三只大眼睛的狗，和一个能叫来一切的打火盒。</span></a>
+      <a class="card" href="https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/08-坚定的锡兵.md" target="_blank" rel="noopener"><b>坚定的锡兵</b><span>只有一条腿，爱上纸做的舞女，最后熔成一颗锡心。</span></a>
+      <a class="card" href="https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/13-影子.md" target="_blank" rel="noopener"><b>影子</b><span>影子独立出去，发了财，反过来支配原来的主人。</span></a>
+      <a class="card" href="https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/14-国王的新衣.md" target="_blank" rel="noopener"><b>国王的新衣</b><span>两个骗子，一件“聪明人才看得见”的衣服。</span></a>
+      <a class="card" href="https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/21-夜莺.md" target="_blank" rel="noopener"><b>夜莺</b><span>真夜莺与镶满宝石的机械夜莺，谁在皇帝床边唱歌。</span></a>
+      <a class="card" href="https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/24-冰雪女王.md" target="_blank" rel="noopener"><b>冰雪女王</b><span>镜片碎片进了眼睛，格尔达一路往北去找加伊。</span></a>
+      <a class="card" href="https://github.com/sepstraw/an-tu-sheng-tong-hua/blob/main/安徒生童话/35-接骨木妈妈.md" target="_blank" rel="noopener"><b>接骨木妈妈</b><span>老人在接骨木树下，看自己的一生像流水一样过去。</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="howto">
+  <div class="wrap">
+    <div class="chapno ui">六 · 怎么读</div>
+    <h2>三条路</h2>
+
+    <script type="text/markdown">
+| 想做的事 | 怎么走 |
+| --- | --- |
+| 通读 | 从 [README 目录](https://github.com/sepstraw/an-tu-sheng-tong-hua#目录) 进，一篇一个文件，三十五篇按本书顺序排 |
+| 先抓结构 | 看完本页三张图，再挑“四类”里对应的那几篇 |
+| 查某条注 | 注释以 `> **注 N**` 跟在所注段落后面，编号沿用原书；全书共 147 条 |
+
+译文共 35 篇、约 17.3 万字、88 张插图，插图按原书位置插在正文里。
+    </script>
+
+    <div class="note ui">
+      <b>关于版权。</b>安徒生原著早已进入公有领域；本仓库用的是云南美术出版社 2018 年中译本，译文版权归译者与出版社所有，仅作个人阅读与文本整理，请勿用于商业传播。
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="wrap ui">
+  文本：<a href="https://github.com/sepstraw/an-tu-sheng-tong-hua">sepstraw/an-tu-sheng-tong-hua</a> · 《安徒生童话》云南美术出版社 2018 年版，EPUB 直接转 Markdown。<br>
+  本页：HTML 结构 + Markdown 正文 + Mermaid 图表；marked 与 mermaid 由 cdn.jsdelivr.net 提供，需联网。
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+(function () {
+  if (!window.marked || !window.mermaid) {
+    var w = document.getElementById('libwarn');
+    if (w) w.hidden = false;
+    return;
+  }
+  marked.setOptions({ gfm: true, breaks: false });
+
+  document.querySelectorAll('script[type="text/markdown"]').forEach(function (el) {
+    var box = document.createElement('div');
+    box.className = 'md';
+    box.innerHTML = marked.parse(el.textContent);
+    el.parentElement.replaceChild(box, el);
+  });
+
+  mermaid.initialize({
+    startOnLoad: false,
+    securityLevel: 'loose',
+    theme: 'base',
+    fontFamily: '"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif',
+    themeVariables: {
+      background: '#fffdf9', primaryColor: '#f3f0e6', primaryTextColor: '#23201c',
+      primaryBorderColor: '#c9bda2', lineColor: '#a89a86', secondaryColor: '#eceee2',
+      tertiaryColor: '#faf7f1', fontSize: '15px'
+    },
+    flowchart: { curve: 'basis', nodeSpacing: 34, rankSpacing: 40, htmlLabels: true, padding: 10, useMaxWidth: false }
+  });
+  document.querySelectorAll('.mermaid').forEach(function (el, i) {
+    var src = el.textContent.trim();
+    mermaid.render('mmd-' + i, src).then(function (res) {
+      el.innerHTML = res.svg;
+    }).catch(function (err) {
+      el.innerHTML = '<pre class="err">图表未渲染：' + (err && err.message ? err.message : err) +
+        '\n\n' + src.replace(/</g, '&lt;') + '</pre>';
+    });
+  });
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+  var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var idx = targets.indexOf(e.target);
+        if (idx < 0) return;
+        links.forEach(function (a) { a.classList.remove('on'); });
+        links[idx].classList.add('on');
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    targets.forEach(function (t) { if (t) io.observe(t); });
+  }
+})();
+</script>
+</body>
+</html>
